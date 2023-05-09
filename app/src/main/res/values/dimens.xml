@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="smallPadding">10dp</dimen>
+    <dimen name="largeTextSize">24sp</dimen>
+    <dimen name="smallMargin">10dp</dimen>
+</resources>

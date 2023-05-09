@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Load App</string>
+    <string name="download_notification_channel_id" translatable="false">download_notification_channel</string>
+    <string name="download_notification_channel_name" translatable="true">Downloads</string>
+    <string name="file_name">File Name:</string>
+    <string name="status">Status:</string>
+</resources>
