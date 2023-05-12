@@ -11,4 +11,11 @@
         <item name="android:paddingTop">@dimen/smallPadding</item>
         <item name="android:paddingBottom">@dimen/smallPadding</item>
     </style>
+
+    <style name="BottomButtonStyle">
+        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_marginStart">@dimen/smallMargin</item>
+        <item name="android:layout_marginEnd">@dimen/smallMargin</item>
+        <item name="android:layout_marginBottom">@dimen/smallMargin</item>
+    </style>
 </resources>

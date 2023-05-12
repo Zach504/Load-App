@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layoutDescription="@xml/detail_scene"
-    tools:context=".DetailActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/fileNameLabel"
-        style="@style/TextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/file_name"
-        app:layout_constraintEnd_toStartOf="@+id/fileName"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/fileName"
-        style="@style/TextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toEndOf="@+id/fileNameLabel"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Placeholder" />
-
-    <TextView
-        android:id="@+id/statusLabel"
-        style="@style/TextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/status"
-        app:layout_constraintEnd_toStartOf="@id/status"
-        app:layout_constraintHorizontal_weight="2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fileName" />
-
-    <TextView
-        android:id="@+id/status"
-        style="@style/TextStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="3"
-        app:layout_constraintStart_toEndOf="@id/statusLabel"
-        app:layout_constraintTop_toBottomOf="@id/fileName"
-        tools:text="Placeholder" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/appCompatButton"
+    <data>
+        <variable
+            name="detailViewModel"
+            type="com.udacity.loadapp.viewmodels.DetailViewModel"/>
+    </data>
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/smallMargin"
-        android:layout_marginEnd="@dimen/smallMargin"
-        android:layout_marginBottom="@dimen/smallMargin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Placeholder" />
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/detail_scene"
+        tools:context=".DetailActivity">
 
+        <TextView
+            android:id="@+id/fileNameLabel"
+            style="@style/TextStyle"
+            android:text="@string/file_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/fileName"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+        <TextView
+            android:id="@+id/fileName"
+            style="@style/TextStyle"
+            android:text="@{detailViewModel.filename}"
+            tools:text="Placeholder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@+id/fileNameLabel"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/statusLabel"
+            style="@style/TextStyle"
+            android:text="@string/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@id/status"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fileName" />
+
+        <TextView
+            android:id="@+id/status"
+            style="@style/TextStyle"
+            android:text="@{detailViewModel.status}"
+            tools:text="Placeholder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintStart_toEndOf="@id/statusLabel"
+            app:layout_constraintTop_toBottomOf="@id/fileName" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/returnButton"
+            android:text="@string/ok"
+            android:textSize="@dimen/largeTextSize"
+            tools:text="Placeholder"
+            android:background="?colorSecondaryContainer"
+            android:textColor="?colorOnSecondaryContainer"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/BottomButtonStyle" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
+</layout>

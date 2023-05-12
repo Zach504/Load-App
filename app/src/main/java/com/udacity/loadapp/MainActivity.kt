@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.udacity.loadapp.databinding.ActivityMainBinding
 import com.udacity.loadapp.viewmodels.MainViewModel
@@ -20,13 +21,14 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.mainViewModel = mainViewModel
+        binding.lifecycleOwner = this
         setContentView(binding.root)
 
         binding.customLoadingButton.setOnClickListener {
             if(mainViewModel.selectedDownloadOption.value?: 0 != 0) {
-                System.out.println(mainViewModel.selectedDownloadOption.value)
+                //Request permission if required
+
                 binding.customLoadingButton.animateLoading()
-                //TODO: Download
                 mainViewModel.getFile()
             }
             else{

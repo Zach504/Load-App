@@ -9,8 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.udacity.loadapp.GLIDE_PATH
-import com.udacity.loadapp.R
+import com.udacity.loadapp.*
 import com.udacity.loadapp.network.FileDownloadApi
 import com.udacity.loadapp.notifications.sendDownloadCompleteNotification
 import kotlinx.coroutines.Dispatchers
@@ -22,33 +21,35 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getFile(){
         viewModelScope.launch(Dispatchers.IO) {
-            val response = FileDownloadApi.getFile(GLIDE_PATH)
-            var status = "Failure"
-            if(response != null){
-                if(response.code == 200){
-                    status = "Success"
-                }
-            }
             val applicationContext = getApplication<Application>().applicationContext
-            val notificationManager = applicationContext.getSystemService(NotificationManager::class.java) as NotificationManager
-            if(notificationManager.getNotificationChannel(applicationContext.getString(R.string.download_notification_channel_id)) == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    val notificationChannel = NotificationChannel(
-                        applicationContext.getString(R.string.download_notification_channel_id),
-                        applicationContext.getString(R.string.download_notification_channel_name),
-                        NotificationManager.IMPORTANCE_HIGH
-                    ).apply {
-                        setShowBadge(false)
-                    }
-                    notificationChannel.enableLights(true)
-                    notificationChannel.lightColor = Color.GREEN
-                    notificationChannel.enableVibration(true)
-                    notificationChannel.description = "It's Download Time"
-
-                    notificationManager.createNotificationChannel(notificationChannel)
+            var url = ""
+            var target = ""
+            when(selectedDownloadOption.value){
+                R.id.glideRadioButton -> {
+                    url = GLIDE_PATH
+                    target = applicationContext.getString(R.string.glide_download)
+                }
+                R.id.starterRadioButton -> {
+                    url = STARTER_PROJECT_PATH
+                    target = applicationContext.getString(R.string.project_download)
+                }
+                R.id.retrofitRadioButton -> {
+                    url = RETROFIT_PATH
+                    target = applicationContext.getString(R.string.retrofit_download)
+                }
+                else -> {
+                    url = GLIDE_PATH
+                    target = applicationContext.getString(R.string.glide_download)
                 }
             }
-            notificationManager.sendDownloadCompleteNotification("Glide", status, getApplication<Application>().applicationContext)
+            val status = FileDownloadApi.getFile(url, applicationContext)
+            var statusString = applicationContext.getString(R.string.failure)
+            if(status == Status.SUCCESS) {
+                statusString = applicationContext.getString(R.string.success)
+            }
+
+            val notificationManager = applicationContext.getSystemService(NotificationManager::class.java) as NotificationManager
+            notificationManager.sendDownloadCompleteNotification(target, statusString, getApplication<Application>().applicationContext)
 
 
         }
