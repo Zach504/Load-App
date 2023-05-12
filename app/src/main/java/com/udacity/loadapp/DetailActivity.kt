@@ -43,18 +43,4 @@ class DetailActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        //I am not a huge fan of this but in order to get any consistency in whether or not the animation is visible this seemed to be necessary
-        lifecycleScope.launch(Dispatchers.IO){
-            sleep(100)
-            withContext(Dispatchers.Main) {
-                binding.motionLayout.transitionToEnd()
-            }
-        }
-
-    }
-
-
 }

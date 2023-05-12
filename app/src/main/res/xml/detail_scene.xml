@@ -4,6 +4,7 @@
     <Transition
         app:constraintSetStart="@+id/start"
         app:constraintSetEnd="@+id/end"
+        app:autoTransition="animateToEnd"
         app:duration="2000">
         <KeyFrameSet>
             <KeyAttribute
