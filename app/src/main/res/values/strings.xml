@@ -6,6 +6,7 @@
     <string name="download_notification_channel_name" translatable="true">Downloads</string>
     <string name="file_name">File Name:</string>
     <string name="status">Status:</string>
+    <string name="show_status">Show Status</string>
     <string name="failure">Failure</string>
     <string name="success">Success</string>
     <string name="glide_download">Glide Download</string>

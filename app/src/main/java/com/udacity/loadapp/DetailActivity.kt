@@ -1,11 +1,18 @@
 package com.udacity.loadapp
 
+import android.app.NotificationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.udacity.loadapp.databinding.ActivityDetailBinding
 import com.udacity.loadapp.viewmodels.DetailViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 
 class DetailActivity : AppCompatActivity() {
 
@@ -14,6 +21,8 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
+        notificationManager.cancelAll()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         if(this.intent.hasExtra(getString(R.string.filename_id))){
             detailViewModel.filename = intent.getStringExtra(getString(R.string.filename_id)).toString()
@@ -30,11 +39,22 @@ class DetailActivity : AppCompatActivity() {
         binding.detailViewModel = detailViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
-
         binding.returnButton.setOnClickListener {
-            binding.motionLayout.transitionToEnd {
-                finish()
-            }
+            finish()
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        //I am not a huge fan of this but in order to get any consistency in whether or not the animation is visible this seemed to be necessary
+        lifecycleScope.launch(Dispatchers.IO){
+            sleep(100)
+            withContext(Dispatchers.Main) {
+                binding.motionLayout.transitionToEnd()
+            }
+        }
+
+    }
+
+
 }

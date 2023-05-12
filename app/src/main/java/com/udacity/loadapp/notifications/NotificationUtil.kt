@@ -21,11 +21,12 @@ fun NotificationManager.sendDownloadCompleteNotification(target: String, status:
     //Styling
     val builder = NotificationCompat.Builder(applicationContext, applicationContext.getString(R.string.download_notification_channel_id))
         .setSmallIcon(R.drawable.baseline_cloud_circle_24)
-        .setContentIntent(contentPendingIntent)
-        .setAutoCancel(true)
+        //.setContentIntent(contentPendingIntent)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setContentTitle(target)
         .setContentText(applicationContext.getString(R.string.status) + " " + status)
+        .addAction(R.drawable.baseline_cloud_download_96, applicationContext.getString(R.string.show_status), contentPendingIntent)
+        .setAutoCancel(true)
     //Notify
     notify(NOTIFICATION_ID, builder.build())
 }

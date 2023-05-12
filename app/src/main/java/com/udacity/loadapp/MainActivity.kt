@@ -24,18 +24,26 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         setContentView(binding.root)
 
+        mainViewModel.downloadInProgress.observe(this, { downloadInProgress ->
+            if(downloadInProgress){
+                binding.customLoadingButton.isEnabled = false
+                binding.customLoadingButton.animateLoading()
+            }
+            else{
+                binding.customLoadingButton.isEnabled = true
+                binding.customLoadingButton.stopAnimateLoading()
+            }
+        })
+        binding.customLoadingButton.animateLoading()
+
         binding.customLoadingButton.setOnClickListener {
             if(mainViewModel.selectedDownloadOption.value?: 0 != 0) {
                 //Request permission if required
-
-                binding.customLoadingButton.animateLoading()
                 mainViewModel.getFile()
             }
             else{
                 Toast.makeText(applicationContext, "Select Something To Download", Toast.LENGTH_LONG).show()
             }
         }
-
-
     }
 }

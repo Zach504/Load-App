@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.graphics.Color
 import android.os.Build
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,12 +15,19 @@ import com.udacity.loadapp.network.FileDownloadApi
 import com.udacity.loadapp.notifications.sendDownloadCompleteNotification
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     var selectedDownloadOption = MutableLiveData<Int>()
+    var downloadInProgress = MutableLiveData<Boolean>()
+
+    init {
+        downloadInProgress.value = false
+    }
 
     fun getFile(){
+        downloadInProgress.value = true
         viewModelScope.launch(Dispatchers.IO) {
             val applicationContext = getApplication<Application>().applicationContext
             var url = ""
@@ -47,11 +55,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if(status == Status.SUCCESS) {
                 statusString = applicationContext.getString(R.string.success)
             }
-
             val notificationManager = applicationContext.getSystemService(NotificationManager::class.java) as NotificationManager
             notificationManager.sendDownloadCompleteNotification(target, statusString, getApplication<Application>().applicationContext)
-
-
+            withContext(Dispatchers.Main){
+                downloadInProgress.value = false
+            }
         }
     }
 

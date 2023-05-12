@@ -35,19 +35,9 @@ class CustomLoadingButton @JvmOverloads constructor(
 
     //Animator
     private val valueAnimator = ValueAnimator.ofFloat(0f,1f)
-    private val ANIMATION_TIME = 2000L
+    private val ANIMATION_TIME = 1000L
 
     private var loadPercentage : Float = 0f
-
-    //Loading Circle
-    private lateinit var circleDrawable: Drawable
-    private var circleArc = 0
-
-    //Loading Bar
-    private lateinit var loadingBarDrawable: LayerDrawable
-    private lateinit var clipDrawable: ClipDrawable
-    private val FULLY_LOADED = 100.0
-    private val view = this
 
     //Paint
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -80,17 +70,14 @@ class CustomLoadingButton @JvmOverloads constructor(
 
         valueAnimator.addUpdateListener(this)
         valueAnimator.duration = ANIMATION_TIME
-        valueAnimator.repeatCount = 0
+        valueAnimator.repeatCount = -1
+        valueAnimator.repeatMode = ValueAnimator.RESTART
         valueAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                view.isEnabled = false
-                buttonState = ButtonState.Loading
                 super.onAnimationStart(animation)
             }
 
             override fun onAnimationEnd(animation: Animator) {
-                view.isEnabled = true
-                buttonState = ButtonState.Idle
                 loadPercentage = 0f
                 invalidate()
                 super.onAnimationEnd(animation)
@@ -141,25 +128,14 @@ class CustomLoadingButton @JvmOverloads constructor(
 
     fun animateLoading() {
         valueAnimator.start()
+        buttonState = ButtonState.Loading
     }
 
-
-    /*
-    override fun onTimeUpdate(animator: TimeAnimator?, totalTime: Long, deltaTime: Long) {
-        //Animation Complete
-        if(totalTime > ANIMATION_TIME){
-            animator?.cancel()
-            loadPercentage = 0
-        }
-        //Update Button Appearance
-        else{
-            val newLoadPercentage: Double = (totalTime / ANIMATION_TIME_DOUBLE) * FULLY_LOADED
-            loadPercentage = newLoadPercentage.toInt()
-        }
-        invalidate()
+    fun stopAnimateLoading() {
+        valueAnimator.end()
+        buttonState = ButtonState.Idle
     }
 
-     */
 
 
 
