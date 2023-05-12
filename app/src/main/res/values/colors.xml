@@ -63,4 +63,5 @@
     <color name="md_theme_dark_scrim">#000000</color>
     <color name="potentially_hazardous">#FF8282</color>
     <color name="red">#FF0000</color>
+    <color name="green">#00aa00</color>
 </resources>

@@ -14,14 +14,19 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         if(this.intent.hasExtra(getString(R.string.filename_id))){
             detailViewModel.filename = intent.getStringExtra(getString(R.string.filename_id)).toString()
         }
         if(this.intent.hasExtra(getString(R.string.status_id))){
             detailViewModel.status = intent.getStringExtra(getString(R.string.status_id)).toString()
+            if(detailViewModel.status.equals(getString(R.string.success))){
+                binding.status.setTextColor(getColor(R.color.green))
+            }
+            else{
+                binding.status.setTextColor(getColor(R.color.red))
+            }
         }
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
         binding.detailViewModel = detailViewModel
         binding.lifecycleOwner = this
         setContentView(binding.root)
